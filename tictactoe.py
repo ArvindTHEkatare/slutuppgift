@@ -1,11 +1,15 @@
+#Initierar ett spelbräde med tomma utrymme
 board = [' ' for x in range(10)]
 
-def insertLetter(letter,pos):
-    board[pos] = letter
+#här har vi en funktion, parametrarna är letteroch pos. Vad denna funktion huvudsakligen gör är att infoga en given bokstav på en specifik position på spelplanen som användaren väljer
+def insertLetter(letter, pos):
+    board[pos] = letter  
 
+#Kontrollerar om ett visst utrymme vid en position är tillgängligt eller inte
 def spaceIsFree(pos):
     return board[pos] == ' '
 
+#Skriver ut det som händer / aktuellt tillstånd i spelet
 def printBoard(board):
     print('   |   |   ')
     print(' ' + board[1] + ' | ' + board[2] + ' | ' + board[3])
@@ -19,12 +23,15 @@ def printBoard(board):
     print(' ' + board[7] + ' | ' + board[8] + ' | ' + board[9])
     print('   |   |   ')
 
+#Kontrollerar om spelplanen är full genom att räkna antalet tomma platser
 def isBoardFull(board):
     if board.count(' ') > 1:
         return False
     else:
         return True
 
+
+#Ser till om spelaren X eller O är vinnaren!
 def IsWinner(b,l):
     return ((b[1] == l and b[2] == l and b[3] == l) or
     (b[4] == l and b[5] == l and b[6] == l) or
@@ -35,6 +42,7 @@ def IsWinner(b,l):
     (b[1] == l and b[5] == l and b[9] == l) or
     (b[3] == l and b[5] == l and b[7] == l))
 
+#funktionen för användares input.  tar emot ett integer, dvs en nummer mellan 1-9 
 def playerMove():
     run = True
     while run:
@@ -53,6 +61,9 @@ def playerMove():
         except:
             print('Please type a number')
 
+
+
+#skriver ut/baserar datorns output till användares input 
 def computerMove():
     possibleMoves = [x for x , letter in enumerate(board) if letter == ' ' and x != 0  ]
     move = 0
@@ -87,12 +98,14 @@ def computerMove():
         move = selectRandom(edgesOpen)
         return move
 
+#Väljer ett slumpmässigt drag från en lista över möjliga drag. Det här är viktigt att veta eftersom respons för en input är random, och inte riggad på något sätt 
 def selectRandom(li):
     import random
     ln = len(li)
     r = random.randrange(0,ln)
     return li[r]
 
+#En loop för själva spelet
 def main():
     print("Welcome to the game!")
     printBoard(board)
@@ -123,6 +136,8 @@ def main():
     if isBoardFull(board):
         print("Tie game")
 
+
+#Loop som kör om spelet om man vill köra eller "break" tar plat man om man vill inte. 
 while True:
     x = input("Do you want to play? Press y for yes or n for no (y/n)\n")
     if x.lower() == 'y':
