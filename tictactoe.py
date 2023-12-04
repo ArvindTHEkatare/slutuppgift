@@ -1,6 +1,10 @@
 #Initierar ett spelbräde med tomma utrymme
 rutnät = [' ' for x in range(10)]
 
+# Poängmätare för varje spelare. 
+poäng_spelare_X = 0
+poäng_spelare_O = 0
+
 #här har vi en funktion, parametrarna är letteroch pos. Vad denna funktion huvudsakligen gör är att infoga en given bokstav på en specifik position på spelplanen som användaren väljer
 def insticksbokstav(bokstav, pos):
     rutnät[pos] = bokstav  
@@ -31,15 +35,23 @@ def ärrutnätfylld(rutnät):
         return True
 
 #Ser till om spelaren X eller O är vinnaren!
-def Är_vinnaren(b,l):
-    return ((b[1] == l and b[2] == l and b[3] == l) or
-    (b[4] == l and b[5] == l and b[6] == l) or
-    (b[7] == l and b[8] == l and b[9] == l) or
-    (b[1] == l and b[4] == l and b[7] == l) or
-    (b[2] == l and b[5] == l and b[8] == l) or
-    (b[3] == l and b[6] == l and b[9] == l) or
-    (b[1] == l and b[5] == l and b[9] == l) or
-    (b[3] == l and b[5] == l and b[7] == l))
+def Är_vinnaren(b, bokstav):
+    global poäng_spelare_X, poäng_spelare_O
+    if ((b[1] == bokstav and b[2] == bokstav and b[3] == bokstav) or
+        (b[4] == bokstav and b[5] == bokstav and b[6] == bokstav) or
+        (b[7] == bokstav and b[8] == bokstav and b[9] == bokstav) or
+        (b[1] == bokstav and b[4] == bokstav and b[7] == bokstav) or
+        (b[2] == bokstav and b[5] == bokstav and b[8] == bokstav) or
+        (b[3] == bokstav and b[6] == bokstav and b[9] == bokstav) or
+        (b[1] == bokstav and b[5] == bokstav and b[9] == bokstav) or
+        (b[3] == bokstav and b[5] == bokstav and b[7] == bokstav)):
+        if bokstav == 'X':
+            poäng_spelare_X += 1
+        elif bokstav == 'O':
+            poäng_spelare_O += 1
+        return True
+    return False
+
 
 #funktionen för användares input.  tar emot ett integer, dvs en nummer mellan 1-9 
 def användaresdrag():
@@ -104,7 +116,9 @@ def väljslump(li):
 
 #En loop för själva spelet
 def huvud():
+    global poäng_spelare_X, poäng_spelare_O
     print("Välkommen till spelet!! :D")
+    print("Poängställning - Spelare X: {}, Spelare O: {}".format(poäng_spelare_X, poäng_spelare_O))
     utskrifttavla(rutnät)
 
     while not(ärrutnätfylld(rutnät)):
@@ -112,7 +126,7 @@ def huvud():
             användaresdrag()
             utskrifttavla(rutnät)
         else:
-            print("Du förlorade! :( lycka till nästa gång ")
+            print("Du förlorade! :( Lycka till nästa gång ")
             break
 
         if not(Är_vinnaren(rutnät , 'X')):
@@ -135,6 +149,19 @@ while True:
     x = input("Vill du spela tictactoe? Svara i (ja/nej)\n")
     if x.lower() == 'ja':
         rutnät = [' ' for x in range(10)]
+        
+        print('   |   |   ')
+        print(' 1 | 2 | 3 ')
+        print('   |   |   ')
+        print('-----------')
+        print('   |   |   ')
+        print(' 4 | 5 | 6 ')
+        print('   |   |   ')
+        print('-----------')
+        print('   |   |   ')
+        print(' 7 | 8 | 9 ')
+        print('   |   |   ')
+        print("Här är en liten guide om hur man ska skriva in sitt svar! \nMan skriver sitt nummer var man vill ha sin X/0 \n")
         print('--------------------')
         huvud()
     else:
